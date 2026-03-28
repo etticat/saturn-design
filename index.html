@@ -46,6 +46,7 @@
     <img id="main" src="image.jpg" alt="">
     <script>
         let clicks = 0;
+        let lastSpawn = 0;
         const main = document.getElementById('main');
 
         function spawnHead() {
@@ -74,7 +75,11 @@
         main.addEventListener('click', () => {
             clicks++;
             if (clicks >= 13) {
-                spawnHead();
+                const now = Date.now();
+                if (now - lastSpawn >= 2000) {
+                    lastSpawn = now;
+                    spawnHead();
+                }
             }
         });
     </script>
