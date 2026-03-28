@@ -6,20 +6,48 @@
     <title>saturn.design</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; background: #fff; }
+        html, body { height: 100%; background: #fff; overflow: hidden; }
         body {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        img {
+        #main {
             max-width: 90vw;
             max-height: 90vh;
             object-fit: contain;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        #head {
+            position: fixed;
+            right: -200px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 25vh;
+            transition: right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            z-index: 10;
+        }
+        #head.peek {
+            right: -20px;
         }
     </style>
 </head>
 <body>
-    <img src="image.jpg" alt="">
+    <img id="main" src="image.jpg" alt="">
+    <img id="head" src="head.png" alt="">
+    <script>
+        let clicks = 0;
+        const main = document.getElementById('main');
+        const head = document.getElementById('head');
+        main.addEventListener('click', () => {
+            clicks++;
+            if (clicks === 13) {
+                head.classList.add('peek');
+            }
+        });
+    </script>
 </body>
 </html>
