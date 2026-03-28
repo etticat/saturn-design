@@ -20,32 +20,61 @@
             user-select: none;
             -webkit-user-select: none;
         }
-        #head {
+        .head {
             position: fixed;
-            right: -200px;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 25vh;
-            transition: right 0.6s ease-out;
             pointer-events: none;
             z-index: 10;
+            transition: transform 0.6s ease-out;
         }
-        #head.peek {
-            right: -20px;
+        .head.from-right {
+            right: 0;
+            transform: translateX(100%);
+        }
+        .head.from-left {
+            left: 0;
+            transform: translateX(-100%) scaleX(-1);
+        }
+        .head.from-right.peek {
+            transform: translateX(20%);
+        }
+        .head.from-left.peek {
+            transform: translateX(-20%) scaleX(-1);
         }
     </style>
 </head>
 <body>
     <img id="main" src="image.jpg" alt="">
-    <img id="head" src="head.png" alt="">
     <script>
         let clicks = 0;
         const main = document.getElementById('main');
-        const head = document.getElementById('head');
+
+        function spawnHead() {
+            const img = document.createElement('img');
+            img.src = 'head.png';
+            img.className = 'head';
+
+            const fromRight = Math.random() > 0.5;
+            img.classList.add(fromRight ? 'from-right' : 'from-left');
+
+            const scale = 1 + Math.random() * 2;
+            const baseHeight = 15;
+            img.style.height = (baseHeight * scale) + 'vh';
+
+            const top = Math.random() * 80 + 5;
+            img.style.top = top + '%';
+
+            document.body.appendChild(img);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    img.classList.add('peek');
+                });
+            });
+        }
+
         main.addEventListener('click', () => {
             clicks++;
-            if (clicks === 13) {
-                head.classList.add('peek');
+            if (clicks >= 13) {
+                spawnHead();
             }
         });
     </script>
